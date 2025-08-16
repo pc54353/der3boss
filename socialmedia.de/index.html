@@ -7,14 +7,22 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap');
 
+        /* --- NEU: Universelle Regel für besseres Box-Modell --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
+            overflow-x: hidden; /* VERHINDERT horizontales Scrollen */
             background: #121212;
             color: #fff;
             font-family: 'Roboto', sans-serif;
             scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased; /* Bessere Schriftqualität */
+            text-rendering: optimizeLegibility; /* Bessere Schriftqualität */
         }
 
         .background-animation {
@@ -29,19 +37,19 @@
         .main-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: center; /* Zentriert alle Sektionen horizontal */
             text-align: center;
+            width: 100%;
         }
 
         .hero-section {
-            height: 100vh;
+            min-height: 100vh; /* min-height statt height für mehr Flexibilität */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
             width: 100%;
-            box-sizing: border-box;
         }
 
         .profile-pic {
@@ -106,34 +114,59 @@
         .videos-section {
             padding: 50px 20px;
             width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1200px; /* Begrenzt die maximale Breite des Inhaltsbereichs */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Zentriert alle Elemente in dieser Sektion */
         }
         
         .videos-section h2 {
             font-family: 'Playfair Display', serif;
             font-size: 2.5em;
             color: #d4af37;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            margin-top: 20px;
         }
+
+        /* --- NEU: Verbesserte Lesbarkeit für Textabschnitte --- */
+        .videos-section p, .videos-section h3 {
+            max-width: 720px; /* Begrenzt die Zeilenlänge für bessere Lesbarkeit */
+            line-height: 1.7; /* Erhöht den Zeilenabstand */
+            margin-bottom: 2em; /* Mehr Abstand nach einem Absatz */
+            font-weight: 300;
+            text-align: center; /* Stellt sicher, dass der Text zentriert ist */
+        }
+        .videos-section h3 {
+            font-weight: 400;
+        }
+
 
         .tiktok-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             justify-content: center;
+            width: 100%; /* Stellt sicher, dass das Grid die volle Breite des Containers nutzt */
         }
 
         .tiktok-wrapper {
-            position: relative; /* Wichtig für die Positionierung des Buttons */
+            position: relative;
             border: 3px solid #d4af37;
             border-radius: 12px;
             padding: 8px;
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-            background: #000; /* Schwarzer Hintergrund für den Ladebildschirm */
+            background: #000;
             overflow: hidden;
+            width: 100%; /* Passt sich der Grid-Spalte an */
         }
         
+        /* --- NEU: Stellt sicher, dass das eingebettete Video flexibel ist --- */
+        .tiktok-embed {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 0 !important; /* WICHTIG: Entfernt die starre Mindestbreite */
+        }
+
         .fullscreen-btn {
             position: absolute;
             top: 15px;
@@ -155,7 +188,7 @@
         }
 
         .tiktok-wrapper:hover .fullscreen-btn {
-            opacity: 1; /* Button nur bei Hover anzeigen */
+            opacity: 1;
         }
         
         .scroll-reveal {
@@ -183,6 +216,20 @@
         .push {
             color: #d4af37;
         }
+
+        /* --- NEU: Media Query für bessere mobile Darstellung --- */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 3em; /* Kleinere Schriftgröße für die Überschrift auf Handys */
+            }
+            .videos-section h2 {
+                font-size: 2em;
+            }
+            .tiktok-grid {
+                /* Auf sehr kleinen Bildschirmen stellen wir auf eine Spalte um */
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -204,52 +251,28 @@
         <section class="videos-section scroll-reveal">
             
             <h2 class="push">Über mich:</h2>
-
-<p class="push"> Ich bin @der3boss und bin auf TikTok, YouTube und Instagram aktiv. 
-Meine Inhalte drehen sich hauptsächlich um das Thema Fitness.
- Ich teile regelmäßig Workout-Routinen, Kraftübungen und meine 
- Fortschritte. Mein Ziel ist es, andere zu motivieren und zu 
- inspirieren, regelmäßig ins Fitnessstudio zu gehen und an ihrer 
- Fitness zu arbeiten. Auf TikTok lade ich kurze, energiegeladene Clips von intensiven 
-Trainingseinheiten hoch, gebe Tipps für die richtige Technik und 
-teile motivierende Sprüche. Auf YouTube veröffentliche ich längere 
-Videos mit detaillierten Trainingsplänen, Übungen und persönlichen 
-Erfahrungen. Auch auf Instagram zeige ich regelmäßig Fotos und kurze 
-Clips meiner Fortschritte, um meine Follower auf dem Laufenden zu halten.</p>  
+            <p class="push">Ich bin @der3boss und bin auf TikTok, YouTube und Instagram aktiv. Meine Inhalte drehen sich hauptsächlich um das Thema Fitness. Ich teile regelmäßig Workout-Routinen, Kraftübungen und meine Fortschritte. Mein Ziel ist es, andere zu motivieren und zu inspirieren, regelmäßig ins Fitnessstudio zu gehen und an ihrer Fitness zu arbeiten. Auf TikTok lade ich kurze, energiegeladene Clips von intensiven Trainingseinheiten hoch, gebe Tipps für die richtige Technik und teile motivierende Sprüche. Auf YouTube veröffentliche ich längere Videos mit detaillierten Trainingsplänen, Übungen und persönlichen Erfahrungen. Auch auf Instagram zeige ich regelmäßig Fotos und kurze Clips meiner Fortschritte, um meine Follower auf dem Laufenden zu halten.</p>  
             
-            <h2 class="push">
-            Content: 
-            </h2>
+            <h2 class="push">Content:</h2>
+            <p class="push">@der3boss – Der Influencer für Motivation und Power. „der3boss“ ist auf TikTok, YouTube und Instagram eine bekannte Persönlichkeit in der Fitness-Community. Seine Inhalte drehen sich fast ausschließlich um Gym-Videos, bei denen er seine Workout-Routinen, Kraftübungen und Fortschritte teilt. Mit seinem motivierenden Content inspiriert er Tausende von Fans, regelmäßig ins Gym zu gehen und an ihrer Fitness zu arbeiten. Auf TikTok begeistert er seine Community mit kurzen, dynamischen Clips von intensiven Trainingseinheiten, Tipps für die richtige Technik und motivierende Sprüche. Auf YouTube veröffentlicht er längere Videos, in denen er detaillierte Trainingspläne, Übungen und persönliche Erfahrungen teilt. Auch auf Instagram zeigt er regelmäßig Fotos und kurze Clips seiner Fortschritte, um seine Follower auf dem Laufenden zu halten. „der3boss“ ist bekannt für seine authentische Art, seine Leidenschaft fürs Fitness und seine Fähigkeit, andere zu motivieren, ihre Ziele zu erreichen. Seine Gym-Videos sind für Anfänger und Fortgeschrittene gleichermaßen interessant und bieten Inspiration, Tipps und Motivation für jeden, der im Fitnessstudio durchstarten möchte.</p>
 
-            <p class="push"> @der3boss – Der Influencer für Motivation und Power
+            <h2 class="push">Meine Religion (Islam)</h2>
+            <h3 class="push">Deutsch:<br>Ich bezeuge, dass es keinen Gott gibt außer Allah, und ich bezeuge, dass Muhammad sein Gesandter ist.
+            <br><br>
+            Arabisch:<br>أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّٰهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ اللَّٰهِ</h3>
 
-„der3boss“ ist auf TikTok, YouTube und Instagram eine bekannte Persönlichkeit in der Fitness-Community. Seine Inhalte drehen sich fast ausschließlich um Gym-Videos, bei denen er seine Workout-Routinen, Kraftübungen und Fortschritte teilt. Mit seinem motivierenden Content inspiriert er Tausende von Fans, regelmäßig ins Gym zu gehen und an ihrer Fitness zu arbeiten.
-
-Auf TikTok begeistert er seine Community mit kurzen, dynamischen Clips von intensiven Trainingseinheiten, Tipps für die richtige Technik und motivierende Sprüche. Auf YouTube veröffentlicht er längere Videos, in denen er detaillierte Trainingspläne, Übungen und persönliche Erfahrungen teilt. Auch auf Instagram zeigt er regelmäßig Fotos und kurze Clips seiner Fortschritte, um seine Follower auf dem Laufenden zu halten.
-
-„der3boss“ ist bekannt für seine authentische Art, seine Leidenschaft fürs Fitness und seine Fähigkeit, andere zu motivieren, ihre Ziele zu erreichen. Seine Gym-Videos sind für Anfänger und Fortgeschrittene gleichermaßen interessant und bieten Inspiration, Tipps und Motivation für jeden, der im Fitnessstudio durchstarten möchte.
-
-          <h2 class="push">Meine Religion (Islam)</h2>
-
-          <h3 class="push">Deutsch:
-Ich bezeuge, dass es keinen Gott gibt außer Allah, und ich bezeuge, dass Muhammad sein Gesandter ist.
-<br> <br>
-Arabisch:
-أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّٰهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ اللَّٰهِ  </h3>
-
-            </p>
             <h2>TikTok-Videos</h2>
             <div class="tiktok-grid">
-                <!-- Bestehende erste Reihe -->
                 <div class="tiktok-wrapper">
                     <button class="fullscreen-btn">⛶</button>
-                    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@der3boss/video/7502049570973633814" data-video-id="7502049570973633814" style="max-width: 605px;min-width: 325px;"> <section> <a target="_blank" title="@der3boss" href="https://www.tiktok.com/@der3boss?refer=embed">@der3boss</a> </section> </blockquote>
+                    <!-- WICHTIG: Inline-Style "style=..." wurde hier entfernt -->
+                    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@der3boss/video/7502049570973633814" data-video-id="7502049570973633814"> <section> <a target="_blank" title="@der3boss" href="https://www.tiktok.com/@der3boss?refer=embed">@der3boss</a> </section> </blockquote>
                 </div>
-            
-                <!-- NEU: Ergänzte Videos -->
+
                 <div class="tiktok-wrapper">
                     <button class="fullscreen-btn">⛶</button>
-                    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@der3boss/video/7514688302448954646" data-video-id="7514688302448954646" style="max-width: 605px; min-width: 325px;"> <section> <a target="_blank" title="@der3boss" href="https://www.tiktok.com/@der3boss?refer=embed">@der3boss</a> </section> </blockquote>
+                    <!-- WICHTIG: Inline-Style "style=..." wurde hier entfernt -->
+                    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@der3boss/video/7514688302448954646" data-video-id="7514688302448954646"> <section> <a target="_blank" title="@der3boss" href="https://www.tiktok.com/@der3boss?refer=embed">@der3boss</a> </section> </blockquote>
                 </div>
             </div>
         </section>
@@ -263,11 +286,10 @@ Arabisch:
         // Scroll Animation (unverändert)
         const scrollElements=document.querySelectorAll(".scroll-reveal"); const elementInView=(el,d=1)=>{const eTop=el.getBoundingClientRect().top;return(eTop<= (window.innerHeight||document.documentElement.clientHeight)/d);}; const displayScrollElement=(e)=>{e.classList.add("visible");}; const handleScrollAnimation=()=>{scrollElements.forEach((e)=>{if(elementInView(e,1.25)){displayScrollElement(e);}})} ;window.addEventListener("scroll",()=>{handleScrollAnimation();});handleScrollAnimation();
 
-        // FUNKTIONEN für Videos
+        // FUNKTIONEN für Videos (unverändert)
         document.addEventListener('DOMContentLoaded', () => {
             const wrappers = document.querySelectorAll('.tiktok-wrapper');
 
-            // Funktion 1: Nur ein Video gleichzeitig abspielen
             wrappers.forEach(clickedWrapper => {
                 clickedWrapper.addEventListener('click', () => {
                     setTimeout(() => {
@@ -282,7 +304,6 @@ Arabisch:
                 }, true);
             });
 
-            // Funktion 2: Fullscreen-Button
             document.querySelectorAll('.fullscreen-btn').forEach(button => {
                 button.addEventListener('click', (event) => {
                     event.stopPropagation(); 
